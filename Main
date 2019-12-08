@@ -1,0 +1,75 @@
+#include<cstdio>
+#include<cstring>
+#include<cstdlib>
+using namespace std;
+typedef struct node {
+	int data;
+	struct node* lchild;
+	struct node* rchild;
+}Tree;
+Tree* root;
+int loop = 0;
+int allnumber;
+Tree* p = (Tree*)malloc(sizeof(Tree));
+int Find(int datas) {//1代表右，0代表左
+	p = root;
+	while (1) {
+		if (datas < p->data && p->lchild != NULL)
+			p = p->lchild;
+		else if (datas >= p->data && p->rchild != NULL)
+			p = p->rchild;
+		else if (datas < p->data && p->lchild == NULL)
+			return 0;
+		else if (datas >= p->data && p->rchild == NULL)
+			return 1;
+	}
+}
+void Insert(int datas) {
+	Tree* nw = (Tree*)malloc(sizeof(Tree));
+	nw->data = datas;
+	if (Find(datas) == 0)
+		p->lchild = nw;
+	else
+		p->rchild = nw;
+	nw->lchild = nw->rchild = NULL;
+	
+}
+void Printf1(Tree* q,int n) {//打印凹式
+	if(q->lchild!=NULL)
+		Printf1(q->lchild, n + 4);
+	for (int i = 0; i < n; i++)
+			printf(" ");
+	printf("%d\n", q->data);
+		if (q->rchild != NULL)
+			Printf1(q->rchild, n + 4);
+	return;
+}
+void Printf2(Tree* q) {//打印中序排列
+	if (q->lchild != NULL)
+		Printf2(q->lchild);
+	loop++;
+	if (loop != allnumber+1)
+		printf(" %d", q->data);
+	else printf(" %d\n", q->data);
+	if (q->rchild != NULL)
+		Printf2(q->rchild);
+}
+int main() {
+	root = (Tree*)malloc(sizeof(Tree));
+	allnumber = 0;
+	root->lchild = root->rchild = NULL;
+	int datas;
+	scanf("%d", &datas);//先单独输入根节点
+	root->data = datas;
+	while (1) {
+		scanf("%d", &datas);
+		if (datas == 0)
+			break;
+		allnumber++;
+		Insert(datas);
+	}
+	Printf1(root,0);
+	printf("\n");
+	Printf2(root);
+	return 0;
+}
