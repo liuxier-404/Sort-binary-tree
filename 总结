@@ -1,0 +1,11 @@
+#由于先序，中序，后序排序的不熟练，所以用了很多时间，下面贴出来递归实现中序排列二叉树的代码来，以后复习的时候可以看一下
+void Printf2(Tree* q) {//打印中序排列
+	if (q->lchild != NULL)//打印左子树
+		Printf2(q->lchild);
+	loop++;//格式要求
+	if (loop != allnumber+1)//格式要求
+		printf(" %d", q->data);
+	else printf(" %d\n", q->data);
+	if (q->rchild != NULL)//打印右子树
+		Printf2(q->rchild);
+}
